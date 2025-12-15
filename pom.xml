@@ -10,6 +10,7 @@
     </parent>
 	<artifactId>bakery-common-lib</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 	<name>bakery-common-lib</name>
 	<description>Bakery common lib</description>
 	<properties>
@@ -19,7 +20,23 @@
 	<dependencies>
 	</dependencies>
 
-	<build>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <!--SKIP BUILDING SPRING BOOT SO THAT OTHER MODULES CAN IMPORT AS LIBRARY-->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>bakery-parent-lib</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
