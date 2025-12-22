@@ -1,5 +1,6 @@
 package com.twochickendevs.bakerycommonlib.exception.advide;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ControllerAdvice
+@Order(1)
 public class MethodArgumentNotValidExceptionAdvice {
 
     @ResponseBody
