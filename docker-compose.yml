@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  bakery-eureka-service:
+    image: nntan041299/bakery-eureka-service:0.0.1-SNAPSHOT
+    container_name: bakery-eureka-service
+    ports:
+      - "8082:8082"
+    env_file:
+      - .bakery-eureka-service-env
+
+  bakery-api-gateway:
+    image: nntan041299/bakery-api-gateway:0.0.1-SNAPSHOT
+    container_name: bakery-api-gateway
+    ports:
+      - "8081:8081"
+    depends_on:
+      - bakery-eureka-service
+    env_file:
+      - .bakery-api-gateway-env
+
+  bakery-db:
+    image: postgres:16.11-alpine
+    container_name: bakery-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bakery-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - bakery_db:/var/lib/postgresql/data
+
+  bakery-user-service:
+    image: nntan041299/bakery-user-service:0.0.1-SNAPSHOT
+    container_name: bakery-user-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - bakery-db
+      - bakery-eureka-service
+    env_file:
+      - .bakery-user-service-env
+
+volumes:
+  bakery_db:
